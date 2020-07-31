@@ -1,3 +1,4 @@
 {
-	"mongoURI": "mongodb+srv://admin-yluo:Ly443473141@cluster0.gj8aj.mongodb.net/<mernDB>?retryWrites=true&w=majority"
+	"mongoURI": "mongodb+srv://admin-yluo:Ly443473141@cluster0.gj8aj.mongodb.net/<mernDB>?retryWrites=true&w=majority",
+	"jwtSceretKey": "thisisjwtsecretkeyherewego"
 }

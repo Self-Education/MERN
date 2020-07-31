@@ -1,9 +1,11 @@
 const express = require("express");
-const PORT = process.env.PORT || 5000;
 const connectDB = require("./config/db");
 
 const app = express();
+const PORT = process.env.PORT || 5000;
 
+// add middleware
+app.use(express.json({ extended: true }));
 // connect db
 connectDB();
 
