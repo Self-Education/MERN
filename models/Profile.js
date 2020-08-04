@@ -1,4 +1,4 @@
-const mongoose = requie("mongoose");
+const mongoose = require("mongoose");
 
 const ProfileSchema = new mongoose.Schema({
 	user: {
@@ -110,4 +110,4 @@ const ProfileSchema = new mongoose.Schema({
 	},
 });
 
-module.exports = ProfileSchema = mongoose.model("profile", ProfileSchema);
+module.exports = Profile = mongoose.model("profile", ProfileSchema);
