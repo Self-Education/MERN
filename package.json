@@ -4,8 +4,10 @@
 	"description": "",
 	"main": "server.js",
 	"scripts": {
-		"start": "node sever",
-		"server": "nodemon server"
+		"start": "node server",
+		"server": "nodemon server",
+		"client": "npm start --prefix client",
+		"dev": "concurrently \"npm run server\" \"npm run client\""
 	},
 	"author": "",
 	"license": "ISC",
@@ -23,6 +25,7 @@
 	},
 	"devDependencies": {
 		"concurrently": "^5.2.0",
+		"kill-port": "^1.6.1",
 		"nodemon": "^2.0.4"
 	}
 }
