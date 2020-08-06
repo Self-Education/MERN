@@ -11,77 +11,77 @@ const config = require("config");
 // @desc        Reigster users
 // @access      Public
 router.post(
-	"/",
-	[
-		check("name", "Please input a valid name").trim().notEmpty(),
-		check("email", "Please provide a valid email").isEmail(),
-		check(
-			"password",
-			"Please provdie a password with at least 6 characters"
-		).isLength({ min: 6 }),
-	],
-	async (req, res) => {
-		console.log("i am inside api/users POST");
-		const errors = validationResult(req);
-		console.log(errors);
-		if (!errors.isEmpty()) {
-			return res.status(400).json({ errors: errors.array() });
-		}
-		try {
-			const { name, email, password } = req.body;
-			// check if user already exists
-			// use either await or callback function
-			const user = await User.findOne({ email: email });
-			if (user) {
-				return res
-					.status(400)
-					.json({ errors: [{ msg: "User Already Exists !" }] });
-			}
+    "/",
+    [
+        check("name", "Please input a valid name").trim().notEmpty(),
+        check("email", "Please provide a valid email").isEmail(),
+        check(
+            "password",
+            "Please provdie a password with at least 6 characters"
+        ).isLength({ min: 6 }),
+    ],
+    async (req, res) => {
+        console.log("i am inside api/users POST");
+        const errors = validationResult(req);
+        // console.log(errors);
+        if (!errors.isEmpty()) {
+            return res.status(400).json({ errors: errors.array() });
+        }
+        try {
+            const { name, email, password } = req.body;
+            // check if user already exists
+            // use either await or callback function
+            const user = await User.findOne({ email: email });
+            if (user) {
+                return res
+                    .status(400)
+                    .json({ errors: [{ msg: "User Already Exists !" }] });
+            }
 
-			// Generate Gravatar
-			const gravatarURL = await gravatar.url(email, {
-				s: "200",
-				r: "pg",
-				d: "mm",
-			});
+            // Generate Gravatar
+            const gravatarURL = await gravatar.url(email, {
+                s: "200",
+                r: "pg",
+                d: "mm",
+            });
 
-			// Hash the password
-			const salt = await bcrypt.genSalt(10);
-			const hashedPassword = await bcrypt.hash(password, salt);
+            // Hash the password
+            const salt = await bcrypt.genSalt(10);
+            const hashedPassword = await bcrypt.hash(password, salt);
 
-			// Create a new user
-			const newUser = new User({
-				name: name,
-				email: email,
-				password: hashedPassword,
-				avatar: gravatarURL,
-			});
+            // Create a new user
+            const newUser = new User({
+                name: name,
+                email: email,
+                password: hashedPassword,
+                avatar: gravatarURL,
+            });
 
-			await newUser.save();
+            await newUser.save();
 
-			// prepare jwtToken
-			const payload = {
-				user: {
-					id: newUser.id,
-				},
-			};
+            // prepare jwtToken
+            const payload = {
+                user: {
+                    id: newUser.id,
+                },
+            };
 
-			jwt.sign(
-				payload,
-				config.get("jwtSceretKey"),
-				{
-					expiresIn: 360000,
-				},
-				(error, token) => {
-					if (error) throw error;
-					res.json({ token });
-				}
-			);
-		} catch (error) {
-			console.error(error);
-			return res.status(500).send("serer error");
-		}
-	}
+            jwt.sign(
+                payload,
+                config.get("jwtSceretKey"),
+                {
+                    expiresIn: 360000,
+                },
+                (error, token) => {
+                    if (error) throw error;
+                    res.json({ token });
+                }
+            );
+        } catch (error) {
+            console.error(error);
+            return res.status(500).send("serer error");
+        }
+    }
 );
 
 module.exports = router;
