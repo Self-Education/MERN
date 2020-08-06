@@ -1,5 +1,5 @@
 {
-	"mongoURI": "mongodb+srv://admin-yluo:Ly443473141@cluster0.gj8aj.mongodb.net/mernDB?retryWrites=true&w=majority",
+	"mongoURI": "mongodb+srv://admin-yluo:adminyluo@cluster0.gj8aj.mongodb.net/mernDB?retryWrites=true&w=majority",
 	"jwtSceretKey": "thisisjwtsecretkeyherewego",
 	"githubClientId": "ef3c2b64c386839b2b25",
 	"githubSecret": "8003ab1c00ec3d9e195fc3fd80e6a2a21a831b93",
