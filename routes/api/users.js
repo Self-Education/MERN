@@ -21,7 +21,9 @@ router.post(
 		).isLength({ min: 6 }),
 	],
 	async (req, res) => {
+		console.log("i am inside api/users POST");
 		const errors = validationResult(req);
+		console.log(errors);
 		if (!errors.isEmpty()) {
 			return res.status(400).json({ errors: errors.array() });
 		}

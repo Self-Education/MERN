@@ -1,7 +1,7 @@
 import React, { Fragment, useState } from "react";
 import { Link } from "react-router-dom";
 
-export const Login = () => {
+export default () => {
 	const [formData, setState] = useState({
 		email: "",
 		password: "",

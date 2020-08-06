@@ -2,7 +2,7 @@ const express = require("express");
 const connectDB = require("./config/db");
 
 const app = express();
-const PORT = process.env.PORT || 5000;
+const PORT = 5000;
 
 // add middleware
 app.use(express.json({ extended: true }));
@@ -18,4 +18,4 @@ app.use("/api/profile", require("./routes/api/profile"));
 app.use("/api/posts", require("./routes/api/posts"));
 
 // listen to the port
-app.listen(PORT, () => console.log(`listening to the port ${PORT}`));
+app.listen(PORT, () => console.log(`i am listening to the port ${PORT}`));

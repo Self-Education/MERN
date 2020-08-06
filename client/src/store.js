@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware } from "redux";
 import thunk from "redux-thunk";
-import { compseWithDevTools } from "redux-devtools-extension";
+import { composeWithDevTools } from "redux-devtools-extension";
 import rootReducer from "./reducers/rootReducer";
-import { Provider } from "react-redux";
+
 /* 
 1. createStore: create store to maintian states
 2. applyMiddleware: enable us to use middleware, thunk in our case
@@ -13,8 +13,12 @@ import { Provider } from "react-redux";
 
 const initialState = {};
 
-export default createStore(
+const middleware = [thunk];
+
+const store = createStore(
 	rootReducer,
 	initialState,
-	compseWithDevTools(applyMiddleware(thunk))
+	composeWithDevTools(applyMiddleware(...middleware))
 );
+
+export default store;
