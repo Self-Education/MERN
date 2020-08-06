@@ -5,3 +5,4 @@ jspm_packages/
 .vscode-test
 .idea
 .DS_Store
+default.json
