@@ -1,5 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import {connect} from "reac-redux";
+
 
 export const Navbar = () => {
 	return (
@@ -23,3 +25,7 @@ export const Navbar = () => {
 		</nav>
 	);
 };
+
+const mapStateToProps = (state) => ({
+	userName: state.user.
+})

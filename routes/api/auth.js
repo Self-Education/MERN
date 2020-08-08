@@ -38,6 +38,7 @@ router.post(
 			return res.status(400).json({ errors: errors.array() });
 		}
 		try {
+			console.info("i am inside api/auth to login");
 			const { email, password } = req.body;
 
 			// TODO: check if user exists

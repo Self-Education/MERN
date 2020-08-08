@@ -1,7 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { login } from "../../actions/auth";
+import PropTypes from "prop-types";
+import { connect } from "react-redux";
 
-export default () => {
+const Login = ({ login, isAuthenticated }) => {
 	const [formData, setState] = useState({
 		email: "",
 		password: "",
@@ -13,8 +16,17 @@ export default () => {
 
 	const onSubmit = (e) => {
 		e.preventDefault();
-		console.log("we are logging in");
+		login({ email, password });
 	};
+
+	// redirect if the user is authenticated
+	// use Redirect here, Redirect will navigate to a new location, the new location wll
+	// override the current location in the history stack, the user cannot GO BACK to the
+	// previous page by press Back button
+
+	if (isAuthenticated) {
+		return <Redirect to="/dashboard" />;
+	}
 	return (
 		<Fragment>
 			<section className="container">
@@ -45,7 +57,7 @@ export default () => {
 					<input
 						type="submit"
 						className="btn btn-primary"
-						value="Register"
+						value="Login"
 					/>
 				</form>
 				<p className="my-1">
@@ -55,3 +67,14 @@ export default () => {
 		</Fragment>
 	);
 };
+
+Login.propTypes = {
+	login: PropTypes.func.isRequired,
+	isAuthenticated: PropTypes.bool,
+};
+
+const mapStateToProps = (state) => ({
+	isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { login })(Login);
