@@ -6,6 +6,8 @@ import {
 	LOGIN_FAIL,
 	AUTHENTICATION_SUCCESS,
 	AUTHENTICATION_FAIL,
+	LOGOUT,
+	CLEAR_PROFILE,
 } from "./constants";
 import setAlert from "./alert";
 import setAuthToken from "../utils/setAuthToken";
@@ -26,6 +28,8 @@ const register = ({ name, email, password }) => async (dispatch) => {
 			type: REGISTER_SUCCESS,
 			payload: res.data,
 		});
+
+		dispatch(authenticateUser());
 	} catch (error) {
 		const err = error.response.data.errors;
 		// console.log(err);
@@ -51,11 +55,11 @@ const login = ({ email, password }) => async (dispatch) => {
 		// post loggin data to login route
 		console.info("i am going to post to login route");
 		const res = await axios.post("/api/auth", body, config);
-		console.info(res);
 		dispatch({
 			type: LOGIN_SUCCESS,
 			payload: res.data,
 		});
+		dispatch(authenticateUser());
 	} catch (error) {
 		console.error("------actions/auth/login: ---------");
 		console.error(error);
@@ -72,22 +76,22 @@ const authenticateUser = () => async (dispatch) => {
 	try {
 		console.info("i am inside authenticateUser");
 		const res = await axios.get("/api/auth");
-		console.info("response from auth is :" + res);
 		dispatch({
 			type: AUTHENTICATION_SUCCESS,
-			payload: res.data,
+			payload: res.data, //user
 		});
 	} catch (error) {
-		console.error(error);
+		// console.error(error);
 		dispatch({
 			type: AUTHENTICATION_FAIL,
 		});
 	}
 };
 
-const logout = (dispatch) => {
+const logout = () => (dispatch) => {
 	dispatch({
 		type: LOGOUT,
 	});
+	dispatch({ type: CLEAR_PROFILE });
 };
-export { register, login, authenticateUser };
+export { register, login, authenticateUser, logout };

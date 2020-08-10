@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import PropTypes from "prop-types";
 
 const Alert = ({ alerts }) => {
+	console.log("i am insdie the alert components");
 	if (alerts !== null && alerts.length > 0) {
 		return alerts.map((alert) => {
 			return (

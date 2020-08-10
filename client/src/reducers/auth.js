@@ -16,12 +16,13 @@ const initialState = {
 };
 
 const auth = (state = initialState, action) => {
+	// console.log("i am insdie auth reducer");
 	const { type, payload } = action;
 	switch (type) {
 		case AUTHENTICATION_SUCCESS:
 			return {
 				...state,
-				user: payload.user,
+				user: payload,
 				finishLoad: true,
 				isAuthenticated: true,
 			};

@@ -15,13 +15,13 @@ router.post(
 	"/",
 	[
 		auth,
-		check("skills", "Skills are requried").exists(),
-		check("status", "Status is requried").exists(),
+		check("skills", "Skills are requried").not().isEmpty(),
+		check("status", "Status is requried").not().isEmpty(),
 	],
 	async (req, res) => {
 		const validationError = validationResult(req);
 		if (!validationError.isEmpty()) {
-			return res.status(400).josn({ errors: validationError.array() });
+			return res.status(400).json({ errors: validationError.array() });
 		}
 
 		const {
@@ -56,9 +56,9 @@ router.post(
 		if (facebook) profileInfo.social.facebook = facebook;
 
 		try {
-			// TODO: check if profile exists, create a new one if not
+			// check if profile exists, create a new one if not
 			const profile = await Profile.findOne({ user: req.user.id });
-
+			console.log("i am inside the create/update profile route");
 			if (!profile) {
 				const newProfile = new Profile(profileInfo);
 				await newProfile.save();
@@ -79,6 +79,7 @@ router.post(
 // @access      private
 router.get("/me", auth, async (req, res) => {
 	try {
+		console.log(" i am inside get current user profile");
 		const profile = await Profile.findOne({
 			user: req.user.id,
 		}).populate("user", ["name", "avatar"]);

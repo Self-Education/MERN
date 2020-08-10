@@ -3,6 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 module.exports = async (req, res, next) => {
+	console.log("inside auth middleware");
 	// getToken from server
 	const tokenIn = req.header("x-auth-token");
 

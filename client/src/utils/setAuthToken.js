@@ -4,7 +4,6 @@ import axios from "axios";
 const setAuthToken = () => {
 	console.info("-------- I am inisde setAuthToken ----------");
 	const token = localStorage.getItem("token");
-	console.log(token);
 	if (token) axios.defaults.headers.common["x-auth-token"] = token;
 	else delete axios.defaults.headers.common["x-auth-token"];
 };
