@@ -1,12 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import { connect } from "react-redux";
 import { createProfile } from "../../actions/profile";
-import { Redirect } from "react-router-dom";
 import Alert from "../layout/Alert";
 
-const CreateProfile = ({ profile, createProfile }) => {
-	const [formData, setFormData] = useState({
+const ProfileForm = ({ edit, profile, createProfile, history }) => {
+	const initialState = {
 		company: "",
 		website: "",
 		location: "",
@@ -19,7 +18,9 @@ const CreateProfile = ({ profile, createProfile }) => {
 		linkedin: "",
 		youtube: "",
 		instagram: "",
-	});
+	};
+
+	const [formData, setFormData] = useState(initialState);
 	const [displaySocialInputs, toggleSocialInputs] = useState(false);
 	const {
 		company,
@@ -35,6 +36,28 @@ const CreateProfile = ({ profile, createProfile }) => {
 		youtube,
 		instagram,
 	} = formData;
+	// if it is edit mode, fill form with existing profile info
+	useEffect(() => {
+		if (edit) {
+			const currentUserProfile = profile.profile;
+			const initialEditState = { ...initialState };
+			for (const key in currentUserProfile) {
+				if (key in formData) {
+					initialEditState[key] = currentUserProfile[key];
+				}
+			}
+
+			for (const key in currentUserProfile.social) {
+				if (key in formData) {
+					initialEditState[key] = currentUserProfile.social[key];
+				}
+			}
+			if (Array.isArray(initialEditState.skills)) {
+				initialEditState.skills = initialEditState.skills.join(", ");
+			}
+			setFormData(initialEditState);
+		}
+	}, []);
 
 	const changeHandler = (event) => {
 		setFormData({
@@ -45,13 +68,12 @@ const CreateProfile = ({ profile, createProfile }) => {
 
 	const onSubmit = (event) => {
 		event.preventDefault();
-		createProfile(formData);
+		createProfile(formData, edit, history);
 	};
 
-	if (profile.profile != null) {
-		console.log("i am here");
-		return <Redirect to="/dashboard" />;
-	}
+	// if (profile.profile != null) {
+	// 	return <Redirect to="/dashboard" />;
+	// }
 	return (
 		<Fragment>
 			<Alert />
@@ -243,7 +265,7 @@ const CreateProfile = ({ profile, createProfile }) => {
 	);
 };
 
-CreateProfile.propTypes = {
+ProfileForm.propTypes = {
 	createProfile: PropTypes.func.isRequired,
 };
 
@@ -251,4 +273,4 @@ const mapStateToProps = (state) => ({
 	profile: state.profile,
 });
 
-export default connect(mapStateToProps, { createProfile })(CreateProfile);
+export default connect(mapStateToProps, { createProfile })(ProfileForm);

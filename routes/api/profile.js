@@ -161,9 +161,9 @@ router.put(
 	"/experience",
 	[
 		auth,
-		check("tile", "title is required").exists(),
-		check("company", "company is requried").exists(),
-		check("from", "start date is requried").exists(),
+		check("tile", "title is required").not().isEmpty(),
+		check("company", "company is requried").not().isEmpty(),
+		check("from", "start date is requried").not().isEmpty(),
 	],
 	async (req, res) => {
 		const {
@@ -204,10 +204,10 @@ router.put(
 	"/education",
 	[
 		auth,
-		check("school", "school is required").exists(),
-		check("degree", "degree is requried").exists(),
-		check("fieldofstudy", "fieldofstudy is requried").exists(),
-		check("from", "start date is requried").exists(),
+		check("school", "school is required").not().isEmpty(),
+		check("degree", "degree is requried").not().isEmpty(),
+		check("fieldofstudy", "fieldofstudy is requried").not().isEmpty(),
+		check("from", "start date is requried").not().isEmpty(),
 	],
 	async (req, res) => {
 		const {
@@ -267,7 +267,7 @@ router.delete("/experience/:experienceId", auth, async (req, res) => {
 			(exp) => exp._id.toString() != experienceId
 		);
 		await foundProfile.save();
-		return res.json(foundProfile);
+		return res.json("experience deleted");
 	} catch (error) {
 		console.error(error);
 		return res.status(500).json({ msg: "server error" });

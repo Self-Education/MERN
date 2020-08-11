@@ -12,7 +12,10 @@ const initialState = {
 	error: {},
 };
 const profile = (state = initialState, action) => {
+	// console.log("i am inside the profile reducer");
 	const { type, payload } = action;
+	console.log("type is " + type);
+	console.log(payload);
 	switch (type) {
 		case GET_PROFILE_SUCCESS:
 			return {

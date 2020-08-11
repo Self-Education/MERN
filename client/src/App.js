@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import "./App.css";
 import Navbar from "./components/layout/Navbar";
 import Landing from "./components/layout/Landing";
-import Alert from "./components/layout/Alert";
 import Login from "./components/auth/Login";
 import Register from "./components/auth/Register";
 import Dashboard from "./components/dashboard/Dashboard";
@@ -12,7 +11,10 @@ import { Provider } from "react-redux";
 import store from "./store";
 import { authenticateUser } from "./actions/auth";
 import setAuthToken from "./utils/setAuthToken";
-import CreateProfile from "./components/profile-forms/CreateProfile";
+import ProfileForm from "./components/profile-forms/ProfileForm";
+import ExperienceForm from "./components/profile-forms/ExperienceForm";
+import EducationForm from "./components/profile-forms/EducationForm";
+import Alert from "./components/layout/Alert";
 
 // call setAuthToken outside to make sure token is stored before App is rendered
 // think about the case that we dont call setAtuthToken() here,
@@ -40,6 +42,7 @@ function App() {
 					<Route exact path="/" component={Landing} />
 
 					<section className="container">
+						<Alert />
 						<Switch>
 							<Route
 								exact
@@ -55,7 +58,22 @@ function App() {
 							<PrivateRoute
 								exact
 								path="/create-profile"
-								component={CreateProfile}
+								component={() => <ProfileForm edit="false" />}
+							/>
+							<PrivateRoute
+								exact
+								path="/edit-profile"
+								component={() => <ProfileForm edit="true" />}
+							/>
+							<PrivateRoute
+								exact
+								path="/add-experience"
+								component={ExperienceForm}
+							/>
+							<PrivateRoute
+								exact
+								path="/add-education"
+								component={EducationForm}
 							/>
 						</Switch>
 					</section>

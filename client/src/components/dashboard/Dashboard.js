@@ -4,6 +4,8 @@ import { connect } from "react-redux";
 import { getCurrentUserProfile } from "../../actions/profile";
 import Spinner from "../layout/Spinner";
 import { Link } from "react-router-dom";
+import DashboardMenu from "./DashboardMenu";
+import Experience from "./Experience";
 
 const Dashboard = ({
 	auth: { user },
@@ -11,6 +13,7 @@ const Dashboard = ({
 	profile: { profile, finishLoad },
 }) => {
 	useEffect(() => {
+		console.log("dashbard useeffect fired!");
 		getCurrentUserProfile();
 	}, [getCurrentUserProfile]);
 
@@ -23,7 +26,10 @@ const Dashboard = ({
 				<i className="fas fa-user" /> Welcome {user && user.name}
 			</p>
 			{profile !== null ? (
-				<Fragment>has file</Fragment>
+				<Fragment>
+					<DashboardMenu />
+					<Experience experience={profile.experience} />
+				</Fragment>
 			) : (
 				<Fragment>
 					<p>No profile, please create a profile</p>
